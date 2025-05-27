@@ -6,6 +6,8 @@ The Skill Management System follows a three-tier architecture with clear separat
 
 The system consists of the following components:
 
+> **Note:** All major architectural decisions are documented in [Architectural Decision Records (ADRs)](/docs/decisions/README.md).
+
 ### Technology Stack
 
 #### Database

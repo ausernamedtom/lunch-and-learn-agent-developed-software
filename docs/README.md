@@ -15,6 +15,7 @@ The documentation is organized as follows:
 - [Backend](./backend/api-reference.md) - Backend services and API documentation
 - [Operations](./operations/deployment.md) - Deployment and operations information
 - [Contributing](./contributing/code-standards.md) - Guidelines for contributing to the project
+- [Decision Records](./decisions/README.md) - Documentation of key technology, feature, and process decisions
 
 ## Development Setup
 
