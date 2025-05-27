@@ -16,6 +16,8 @@ The documentation is organized as follows:
 - [Operations](./operations/deployment.md) - Deployment and operations information
 - [Contributing](./contributing/code-standards.md) - Guidelines for contributing to the project
 - [Decision Records](./decisions/README.md) - Documentation of key technology, feature, and process decisions
+- [User Stories](./user_stories/README.md) - Gherkin-based user stories for features
+- [Documentation Plan](./documentation-plan.md) - Overall plan for documentation organization
 
 ## Development Setup
 
