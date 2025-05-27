@@ -18,12 +18,12 @@ This document outlines the database schema for the Skill Management System.
 ### Person_Skills
 - Junction table to map people to their skills
 - Will store proficiency levels and verification status
-- Will implement the 5-level proficiency scale as defined in [ADR-002](/docs/decisions/features/ADR-002-skill-proficiency-levels.md)
+- Will implement the 5-level proficiency scale as defined in [ADR-002](/docs/decisions/ADR-002-skill-proficiency-levels.md)
 
 ### Verifications
 - Table to store verification records
 - Will track who verified a person's skill and when
-- Will implement the verification process as defined in [ADR-003](/docs/decisions/process/ADR-003-skill-verification-process.md)
+- Will implement the verification process as defined in [ADR-003](/docs/decisions/ADR-003-skill-verification-process.md)
 
 ## Database Considerations
 

@@ -69,8 +69,13 @@ ADRs should be:
 
 ## ADRs in this Project
 
-All ADRs for the Skill Management System will be stored in:
+All ADRs for the Skill Management System will be stored in this directory (`docs/decisions/`):
 
 ```
 docs/decisions/
+├── README.md                          # This file
+├── ADR-001-react-typescript-frontend.md
+├── ADR-002-skill-proficiency-levels.md
+├── ADR-003-skill-verification-process.md
+└── ... (future ADRs)
 ```
