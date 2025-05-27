@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import OverviewScreen from './pages/OverviewScreen';
 import DetailScreen from './pages/DetailScreen';
 import SkillScreen from './pages/SkillScreen';
+import { ApiProvider } from './contexts/ApiContext';
 
 function App() {
   // Simple state-based routing
@@ -75,18 +76,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar 
-        activePage={activePage} 
-        onNavigate={navigateToOverview} 
-        title={getPageTitle()}
-        showBackButton={activePage !== 'overview'}
-        onBack={navigateToOverview}
-      />
-      <main className="container mx-auto py-4">
-        {renderActivePage()}
-      </main>
-    </div>
+    <ApiProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar 
+          activePage={activePage} 
+          onNavigate={navigateToOverview} 
+          title={getPageTitle()}
+          showBackButton={activePage !== 'overview'}
+          onBack={navigateToOverview}
+        />
+        <main className="container mx-auto py-4">
+          {renderActivePage()}
+        </main>
+      </div>
+    </ApiProvider>
   );
 }
 

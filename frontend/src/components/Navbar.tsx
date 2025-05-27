@@ -1,4 +1,5 @@
 import React from 'react';
+import ApiStatus from './ApiStatus';
 
 interface NavbarProps {
   activePage: 'overview' | 'detail' | 'skill';
@@ -36,16 +37,20 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="font-bold text-xl">{title}</div>
         </div>
         
-        <ul className="flex space-x-6">
-          <li>
-            <button 
-              className={`${activePage === 'overview' ? 'font-bold' : ''} hover:text-blue-200`}
-              onClick={() => onNavigate('overview')}
-            >
-              People Overview
-            </button>
-          </li>
-        </ul>
+        <div className="flex items-center space-x-6">
+          <ul className="flex space-x-6">
+            <li>
+              <button 
+                className={`${activePage === 'overview' ? 'font-bold' : ''} hover:text-blue-200`}
+                onClick={() => onNavigate('overview')}
+              >
+                People Overview
+              </button>
+            </li>
+          </ul>
+          
+          <ApiStatus className="ml-4" />
+        </div>
       </div>
     </nav>
   );

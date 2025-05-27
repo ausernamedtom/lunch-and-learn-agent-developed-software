@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./backend/API
+      dockerfile: Dockerfile
+    ports:
+      - "5054:80"
+      - "7294:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    networks:
+      - skill-management-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - skill-management-network
+
+networks:
+  skill-management-network:
+    driver: bridge
