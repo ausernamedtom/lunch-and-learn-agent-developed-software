@@ -74,8 +74,17 @@ All ADRs for the Skill Management System will be stored in this directory (`docs
 ```
 docs/decisions/
 ├── README.md                          # This file
-├── ADR-001-react-typescript-frontend.md
-├── ADR-002-skill-proficiency-levels.md
-├── ADR-003-skill-verification-process.md
+├── ADR-001-react-typescript-frontend.md  # Technology decision: Frontend framework
+├── ADR-002-skill-proficiency-levels.md   # Feature decision: Skill levels implementation
+├── ADR-003-skill-verification-process.md # Feature decision: Verification workflow
+├── ADR-004-csharp-api-backend.md         # Technology decision: Backend framework
+├── ADR-005-azure-sql-database.md         # Technology decision: Database platform
 └── ... (future ADRs)
 ```
+
+## Types of ADRs
+
+We maintain two categories of decision records:
+
+1. **Technology Decisions**: Choices about platforms, frameworks, and technical infrastructure (ADR-001, ADR-004, ADR-005)
+2. **Feature Decisions**: Choices about how specific features are implemented (ADR-002, ADR-003)
