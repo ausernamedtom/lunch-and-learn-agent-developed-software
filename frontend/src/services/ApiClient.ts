@@ -32,21 +32,17 @@ export class ApiClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw {
-          status: response.status,
-          message: errorData.message || `HTTP error ${response.status}`
-        } as ApiError;
+        // Throw an actual Error object for ESLint compatibility
+        throw new Error(errorData.message || `HTTP error ${response.status}`);
       }
 
       return await response.json() as T;
     } catch (error) {
-      if ((error as ApiError).status) {
+      // Always throw an Error object for ESLint compatibility
+      if (error instanceof Error) {
         throw error;
       }
-      throw {
-        status: 0,
-        message: (error as Error).message || 'Network error'
-      } as ApiError;
+      throw new Error((error as any)?.message || 'Network error');
     }
   }
 

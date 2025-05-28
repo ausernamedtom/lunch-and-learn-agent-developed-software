@@ -71,6 +71,7 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
       fetchPeople();
       fetchSkills();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useBackend]);
 
   // Fetch all people
