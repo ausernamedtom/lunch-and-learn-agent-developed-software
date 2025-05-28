@@ -8,6 +8,11 @@ on:
       - 'frontend/**'
       - 'deploy/**'
       - '.github/workflows/azure-deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
   workflow_dispatch:
     inputs:
       environment:
@@ -20,7 +25,38 @@ on:
           - prod
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET for API tests
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      
+      - name: Run API tests
+        run: |
+          cd backend/API
+          dotnet test --configuration Release
+      
+      - name: Setup Node.js for Frontend tests
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+      
+      - name: Run Frontend tests
+        run: |
+          cd frontend
+          npm ci
+          npm test -- --watchAll=false
+  
   deploy-infrastructure:
+    needs: [test]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'dev' }}
     
@@ -43,6 +79,7 @@ jobs:
 
   build-and-deploy-api:
     needs: deploy-infrastructure
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
@@ -52,7 +89,15 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
+      
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       
       - name: Build and Publish API
         run: |
@@ -74,6 +119,7 @@ jobs:
           
   build-and-deploy-frontend:
     needs: build-and-deploy-api
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
@@ -84,6 +130,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
       
       - name: Build Frontend
         run: |
@@ -103,3 +151,42 @@ jobs:
         with:
           app-name: 'skillmgmt-${{ github.event.inputs.environment || "dev" }}-web'
           package: './frontend/build'
+
+  deployment-notification:
+    needs: build-and-deploy-frontend
+    runs-on: ubuntu-latest
+    if: success() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    
+    steps:
+      - name: Get deployment URLs
+        id: get-urls
+        run: |
+          echo "API_URL=https://skillmgmt-${{ github.event.inputs.environment || 'dev' }}-api.azurewebsites.net" >> $GITHUB_OUTPUT
+          echo "WEB_URL=https://skillmgmt-${{ github.event.inputs.environment || 'dev' }}-web.azurewebsites.net" >> $GITHUB_OUTPUT
+      
+      - name: Create deployment status comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const environment = '${{ github.event.inputs.environment || "dev" }}';
+            const apiUrl = '${{ steps.get-urls.outputs.API_URL }}';
+            const webUrl = '${{ steps.get-urls.outputs.WEB_URL }}';
+            
+            const deployMsg = `🚀 Deployment to **${environment}** successful!\n\n` +
+                              `- **Frontend:** [${webUrl}](${webUrl})\n` +
+                              `- **API:** [${apiUrl}/swagger](${apiUrl}/swagger)\n\n` +
+                              `Deployment completed at \`${new Date().toISOString()}\``;
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number || 
+                (context.payload.commits ? context.payload.commits[0].id : 'N/A'),
+              body: deployMsg
+            }).catch(err => {
+              // If comment creation fails, just log to console
+              console.log('Deployment was successful, but comment creation failed.');
+              console.log('Deployment details:');
+              console.log(deployMsg);
+            });
