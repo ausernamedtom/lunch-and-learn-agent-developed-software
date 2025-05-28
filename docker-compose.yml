@@ -6,11 +6,13 @@ services:
       context: ./backend/API
       dockerfile: Dockerfile
     ports:
-      - "5054:80"
-      - "7294:443"
+      - "${API_HTTP_PORT:-5054}:80"
+      - "${API_HTTPS_PORT:-7294}:443"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_ENVIRONMENT=${ASPNET_ENVIRONMENT:-Development}
+      - API_URLS=http://+:80;https://+:443
+      - AllowedOrigins__0=http://localhost:${FRONTEND_PORT:-3000}
+      - AllowedOrigins__1=http://frontend:${FRONTEND_PORT:-3000}
     networks:
       - skill-management-network
 
@@ -19,7 +21,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:${API_HTTP_PORT:-5054}/api
     depends_on:
       - api
     networks:

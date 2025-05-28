@@ -1,7 +1,7 @@
 import { Person, Skill, ProficiencyLevel, PersonSkill } from '../types';
 
-// API base URL
-const API_BASE_URL = 'https://localhost:7294/api';
+// API base URL from environment variables with fallback to default
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5054/api';
 
 // Error type for API errors
 export interface ApiError {

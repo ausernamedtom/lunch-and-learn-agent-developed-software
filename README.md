@@ -24,13 +24,16 @@ The complete documentation for this project is available in the [docs](./docs) d
 ### Running with Docker (recommended)
 
 1. Make sure Docker and Docker Compose are installed on your system
-2. From the root directory, run:
+2. Configure the application (optional):
+   - Copy `.env.sample` to `.env` and modify as needed
+   - See [Configuration Documentation](./docs/configuration.md) for details
+3. From the root directory, run:
    ```
    docker-compose up -d
    ```
-3. Open the application at:
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - API Swagger: [https://localhost:7294/swagger](https://localhost:7294/swagger)
+4. Open the application at:
+   - Frontend: [http://localhost:3000](http://localhost:3000) (or custom port if configured)
+   - API Swagger: [http://localhost:5054/swagger](http://localhost:5054/swagger) (or custom port if configured)
 
 ### Running locally (development)
 
@@ -41,12 +44,17 @@ The complete documentation for this project is available in the [docs](./docs) d
    cd backend/API
    ```
 
-2. Run the API:
+2. Configure environment variables (optional):
+   ```
+   export API_URLS=http://localhost:5054;https://localhost:7294
+   ```
+
+3. Run the API:
    ```
    dotnet run
    ```
 
-3. Open Swagger UI at: [https://localhost:7294/swagger](https://localhost:7294/swagger)
+4. Open Swagger UI at: [http://localhost:5054/swagger](http://localhost:5054/swagger) or [https://localhost:7294/swagger](https://localhost:7294/swagger)
 
 #### Frontend
 
@@ -55,12 +63,16 @@ The complete documentation for this project is available in the [docs](./docs) d
    cd frontend
    ```
 
-2. Install dependencies:
+2. Configure environment variables (optional):
+   - Create a `.env` file with your configuration or copy `.env.sample`
+   - See [Configuration Documentation](./docs/configuration.md)
+
+3. Install dependencies:
    ```
    npm install
    ```
 
-3. Start the development server:
+4. Start the development server:
    ```
    npm start
    ```

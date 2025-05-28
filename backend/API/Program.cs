@@ -1,8 +1,16 @@
 using API.Data;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure API URLs from environment variables if provided
+var apiUrls = Environment.GetEnvironmentVariable("API_URLS");
+if (!string.IsNullOrEmpty(apiUrls))
+{
+    builder.WebHost.UseUrls(apiUrls.Split(';'));
+}
 
 // Add services to the container
 builder.Services.AddControllers();
@@ -47,9 +55,13 @@ builder.Services.AddSwaggerGen(options =>
 // Add CORS support for the frontend
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddPolicy(CorsPolicies.AllowFrontend, policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        // Get allowed origins from configuration with fallback to defaults
+        var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? 
+            new[] { "http://localhost:3000" };
+            
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
@@ -72,7 +84,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
+app.UseCors(CorsPolicies.AllowFrontend);
 app.UseAuthorization();
 app.MapControllers();
 
