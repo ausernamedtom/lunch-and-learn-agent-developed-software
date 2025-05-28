@@ -18,6 +18,8 @@ The complete documentation for this project is available in the [docs](./docs) d
 - [Architecture](./docs/architecture/overview.md)
 - [Initial Design Whiteboard](./docs/architecture/diagrams/initial-whiteboard.md)
 - [Architectural Decision Records](./docs/decisions/)
+- [Configuration Guide](./docs/configuration.md)
+- [Secrets Management](./docs/secrets-management.md)
 
 ## Getting Started
 
