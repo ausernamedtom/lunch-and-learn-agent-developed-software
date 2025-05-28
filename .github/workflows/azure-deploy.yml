@@ -125,7 +125,7 @@ jobs:
       - name: Deploy API to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || "dev" }}-api'
+          app-name: "skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || 'dev' }}-api"
           package: './backend/API/publish'
           
   build-and-deploy-frontend:
@@ -150,7 +150,7 @@ jobs:
           npm ci
           npm run build
         env:
-          REACT_APP_API_URL: 'https://skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || "dev" }}-api.azurewebsites.net/api'
+          REACT_APP_API_URL: "https://skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || 'dev' }}-api.azurewebsites.net/api"
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -160,7 +160,7 @@ jobs:
       - name: Deploy Frontend to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || "dev" }}-web'
+          app-name: "skillmgmt-${{ github.event.inputs.environment != '' && github.event.inputs.environment || 'dev' }}-web"
           package: './frontend/build'
 
   deployment-notification:
@@ -180,7 +180,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const environment = '${{ github.event.inputs.environment != '' && github.event.inputs.environment || "dev" }}';
+            const environment = "${{ github.event.inputs.environment != '' && github.event.inputs.environment || 'dev' }}";
             const apiUrl = '${{ steps.get-urls.outputs.API_URL }}';
             const webUrl = '${{ steps.get-urls.outputs.WEB_URL }}';
             
