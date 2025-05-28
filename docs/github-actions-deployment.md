@@ -75,3 +75,16 @@ After successful deployment, your application will be available at:
 - **Swagger Documentation**: `https://skillmgmt-{environment}-api.azurewebsites.net/swagger`
 
 Where `{environment}` is either `dev` or `prod`.
+
+---
+
+## Workflow Structure Update (2024-)
+
+The deployment process is now split into two workflows:
+
+- **Application Deployment:** `.github/workflows/azure-deploy.yml` — builds, tests, and deploys backend and frontend only.
+- **Infrastructure Deployment:** `.github/workflows/infra-deploy.yml` — deploys Azure infrastructure using Bicep.
+
+See `docs/github-actions-workflow-structure.md` for details and rationale.
+
+Infrastructure and application deployments are now managed independently for clarity and maintainability.
