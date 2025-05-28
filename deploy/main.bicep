@@ -97,7 +97,7 @@ resource apiApp 'Microsoft.Web/sites@2022-03-01' = {
     serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|8.0'
+      linuxFxVersion: 'DOTNETCORE|9.0'
       alwaysOn: true
       ftpsState: 'Disabled'
       cors: {
