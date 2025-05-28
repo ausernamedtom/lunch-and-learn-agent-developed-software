@@ -78,3 +78,23 @@ The complete documentation for this project is available in the [docs](./docs) d
    ```
 
 4. Open the application at: [http://localhost:3000](http://localhost:3000)
+
+## Azure Deployment
+
+The application can be deployed to Azure using the provided Bicep infrastructure as code.
+
+### Quick Deployment
+
+1. Navigate to the deploy directory:
+   ```
+   cd deploy
+   ```
+
+2. Run the deployment script:
+   ```
+   ./deploy.sh dev skillmgmt-rg eastus
+   ```
+
+3. Follow the on-screen instructions to deploy the application code
+
+For more details, see the [deployment documentation](./deploy/README.md).

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "projectName": {
+      "value": "skillmgmt"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "location": {
+      "value": "westeurope"
+    },
+    "sqlAdminLogin": {
+      "value": "sqladmin"
+    },
+    "sqlAdminPassword": {
+      "value": "" // For security, provide this at deployment time or use Azure Key Vault
+    },
+    "appServicePlanSku": {
+      "value": {
+        "name": "B1",
+        "tier": "Basic",
+        "capacity": 1
+      }
+    },
+    "sqlDatabaseSku": {
+      "value": {
+        "name": "Basic",
+        "tier": "Basic"
+      }
+    }
+  }
+}
