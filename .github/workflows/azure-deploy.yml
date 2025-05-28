@@ -1,3 +1,14 @@
+#
+# NOTE: Every push to the main branch triggers a full build, test, infrastructure deployment, and release to Azure for both backend and frontend.
+# To deploy to Azure, simply push to main.
+#
+# Required secrets: AZURE_CREDENTIALS, AZURE_RG, SQL_ADMIN_PASSWORD
+#
+# For manual deployment, use the workflow_dispatch trigger in the Actions tab.
+#
+# For details, see docs/github-actions-deployment.md
+#
+
 name: Azure Deployment
 
 on:
